@@ -65,10 +65,10 @@ sub process ($$$) {
           my $result = $_[0]->recv;
           if ($result->{error}) {
             $class->ikachan (1, sprintf "%s %s (%s) update failed", $name, $branch, substr $revision, 0, 10);
-            return $app->throw_error (500);
+            return $app->send_error (500);
           } else {
             $class->ikachan (0, sprintf "%s %s (%s) updated", $name, $branch, substr $revision, 0, 10);
-            return $app->throw_error (200);
+            return $app->send_error (200);
           }
         });
         return $app->throw;
