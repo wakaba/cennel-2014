@@ -1,0 +1,8 @@
+- "../../modules/web-encodings" tests build
+- "../../modules/web-url" tests build
+- "../../modules/charclass" tests build
+- "../../modules/ooutils" tests build operationresponse objectcachesmethod operationresponse classregistry classdiamondgenerator test
+- "../../modules/wanage" tests build datetime mp
+- "../../modules/json-functions-xs" tests build
+- "../../t_deps/modules/test-x1" tests build
+
