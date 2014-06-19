@@ -43,7 +43,8 @@ sub process ($$$) {
       my $input = json_bytes2perl ${$app->http->request_body_as_ref};
       return $app->throw_error (422) unless ref $input eq 'HASH';
       my $name = $app->bare_param ('repo');
-      my $revision = $input->{head};
+      my $old_revision = $input->{before};
+      my $revision = $input->{after};
       my $branch;
       if (defined $input->{ref} and
           $input->{ref} =~ m{\Arefs/heads/(.+)\z}) {
@@ -61,14 +62,14 @@ sub process ($$$) {
           my ($msg, %args) = @_;
           warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
         });
-        $class->ikachan (0, sprintf "%s %s (%s) updating...", $name, $branch, substr $revision, 0, 10);
+        $class->ikachan (0, sprintf "%s %s (%s -> %s) updating...", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
         $act->run_as_cv->cb (sub {
           my $result = $_[0]->recv;
           if ($result->{error}) {
-            $class->ikachan (1, sprintf "%s %s (%s) update failed", $name, $branch, substr $revision, 0, 10);
+            $class->ikachan (1, sprintf "%s %s (%s -> %s) update failed", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
             return $app->send_error (500);
           } else {
-            $class->ikachan (0, sprintf "%s %s (%s) updated", $name, $branch, substr $revision, 0, 10);
+            $class->ikachan (0, sprintf "%s %s (%s -> %s) updated", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
             return $app->send_error (200);
           }
         });
