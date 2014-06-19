@@ -5,6 +5,7 @@ use Wanage::HTTP;
 use Warabe::App;
 use Karasuma::Config::JSON;
 use JSON::Functions::XS qw(json_bytes2perl);
+use Web::UserAgent::Functions qw(http_post);
 use Cennel::Process::RunAction;
 
 my $Config = Karasuma::Config::JSON->new_from_env;
@@ -64,8 +65,10 @@ sub process ($$$) {
         $act->run_as_cv->cb (sub {
           my $result = $_[0]->recv;
           if ($result->{error}) {
+            $class->ikachan (1, sprintf "%s %s (%s) update failed", $name, $branch, substr $revision, 0, 10);
             return $app->throw_error (500);
           } else {
+            $class->ikachan (0, sprintf "%s %s (%s) updated", $name, $branch, substr $revision, 0, 10);
             return $app->throw_error (200);
           }
         });
@@ -79,6 +82,27 @@ sub process ($$$) {
   
   return $app->throw_error (404);
 } # process
+
+my $ThisHost = `hostname`;
+chomp $ThisHost;
+
+my $AppName = __PACKAGE__;
+$AppName =~ s{::Web$}{};
+
+sub ikachan {
+  my ($class, $privmsg, $msg) = @_;
+  my $host = $Config->get_text('ikachan_host');
+  http_post
+    url => qq<http://$host/> . ($privmsg ? 'privmsg' : 'notice'),
+    params => {
+      channel => $Config->get_text('ikachan_channel'),
+      message => sprintf "%s[%s] %s", $AppName, $ThisHost, $msg,
+    },
+    anyevent => 1,
+    cb => sub {
+      #
+    };
+}
 
 1;
 
