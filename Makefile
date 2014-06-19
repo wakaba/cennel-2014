@@ -1,5 +1,3 @@
-# -*- Makefile -*-
-
 all:
 
 WGET = wget
@@ -14,7 +12,7 @@ updatenightly: local/bin/pmbp.pl
 
 ## ------ Setup ------
 
-deps: git-submodules pmbp-install
+deps: git-submodules pmbp-install cinnamon
 
 git-submodules:
 	$(GIT) submodule update --init
@@ -30,6 +28,13 @@ pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl --install \
             --create-perl-command-shortcut perl \
             --create-perl-command-shortcut prove
+
+## ------ Deploy ------
+
+cinnamon:
+	perl local/bin/pmbp.pl --install-perl-app git://github.com/wakaba/cinnamon
+	cd local/cinnamon && perl local/bin/pmbp.pl --create-perl-command-shortcut cinnamon=bin/cinnamon
+	cp local/cinnamon/cinnamon cin
 
 ## ------ Tests ------
 

@@ -1,0 +1,105 @@
+package Cennel::Process::RunAction;
+use strict;
+use warnings;
+use File::Temp;
+use Path::Tiny;
+use AnyEvent;
+use AnyEvent::Util qw(run_cmd);
+
+sub new_from_def ($$) {
+  return bless {def => $_[1]}, $_[0];
+} # new_from_def
+
+sub git_url ($) {
+  return $_[0]->{def}->{git_url};
+} # git_url
+
+sub git_branch ($) {
+  return defined $_[0]->{def}->{git_branch} ? $_[0]->{def}->{git_branch} : 'master';
+} # git_branch
+
+sub cin_role ($) {
+  return $_[0]->{def}->{cinnamon_role};
+} # cin_role
+
+sub cin_task ($) {
+  return $_[0]->{def}->{cinnamon_task};
+} # cin_task
+
+sub temp_repo_path ($) {
+  return $_[0]->{temp_repo_path} ||= do {
+    $_[0]->{temp_dir} = File::Temp->newdir;
+    path ($_[0]->{temp_dir} . '');
+  };
+} # temp_repo_path
+
+sub log ($$%) {
+  my ($self, $msg, %args) = @_;
+  # XXX
+  warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+} # log
+
+sub git_clone_as_cv ($) {
+  my $self = $_[0];
+  my $cv = AE::cv;
+  my $cmd = ['git', 'clone', '--depth', 20, '--branch', $self->git_branch, $self->git_url, $self->temp_repo_path];
+  $self->log ((join ' ', '$', @$cmd), class => 'command');
+  my $error = '';
+  run_cmd (
+    $cmd,
+    '<' => \'',
+    '>' => sub { $self->log ($_[0], channel => 'stdout') },
+    '2>' => sub { $error .= $_[0] if defined $_[0]; $self->log ($_[0], channel => 'stderr') },
+  )->cb (sub {
+    my $result = {error => ($_[0]->recv >> 8) != 0};
+    if ($error =~ /^warning: Remote branch \Q@{[$self->git_branch]}\E not found in upstream origin, using HEAD instead$/m) {
+      $result->{error} = 1;
+    }
+    $cv->send ($result);
+  });
+  return $cv;
+} # git_clone_as_cv
+
+my $CinPath = path (__FILE__)->parent->parent->parent->parent->child ('cin')->absolute;
+
+sub cin_as_cv ($) {
+  my ($self) = @_;
+  my $cv = AE::cv;
+  my $cd = $self->temp_repo_path;
+  my $cmd = [$CinPath, $self->cin_role, $self->cin_task];
+  $self->log ((join ' ', '$', @$cmd), class => 'command');
+  run_cmd (
+    "cd \Q$cd\E && " . (join ' ', map { quotemeta $_ } @$cmd),
+    '<' => \'',
+    '>' => sub { $self->log ($_[0], channel => 'stdout') },
+    '2>' => sub { $self->log ($_[0], channel => 'stderr') },
+  )->cb (sub {
+    $cv->send ({error => ($_[0]->recv >> 8) != 0});
+  });
+  return $cv;
+} # cin_as_cv
+
+sub run_as_cv ($) {
+  my ($self) = @_;
+  my $cv = AE::cv;
+
+  $self->git_clone_as_cv->cb (sub {
+    my $result = $_[0]->recv;
+    unless ($result->{error}) {
+      $self->cin_as_cv->cb (sub {
+        my $result = $_[0]->recv;
+        unless ($result->{error}) {
+          $cv->send ({});
+        } else {
+          $cv->send ($result);
+        }
+      });
+    } else {
+      $cv->send ($result);
+    }
+  });
+
+  return $cv;
+} # run_as_cv
+
+1;
