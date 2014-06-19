@@ -71,6 +71,7 @@ sub process ($$$) {
             return $app->throw_error (200);
           }
         });
+        return $app->throw;
       } else {
         return $app->throw_error (204);
       }
