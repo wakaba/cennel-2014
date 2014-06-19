@@ -61,6 +61,7 @@ sub process ($$$) {
           my ($msg, %args) = @_;
           warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
         });
+        $class->ikachan (0, sprintf "%s %s (%s) updating...", $name, $branch, substr $revision, 0, 10);
         $act->run_as_cv->cb (sub {
           my $result = $_[0]->recv;
           if ($result->{error}) {
