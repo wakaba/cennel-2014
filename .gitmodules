@@ -16,3 +16,9 @@
 [submodule "modules/web-url"]
 	path = modules/web-url
 	url = git://github.com/manakai/perl-web-url
+[submodule "modules/karasuma-config"]
+	path = modules/karasuma-config
+	url = git://github.com/wakaba/karasuma-config
+[submodule "modules/json-functions-xs"]
+	path = modules/json-functions-xs
+	url = git://github.com/wakaba/perl-json-functions-xs

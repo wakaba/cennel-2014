@@ -1,5 +1,6 @@
 - "../../modules/web-encodings" tests build
 - "../../modules/web-url" tests build
+- "../../modules/karasuma-config" tests build
 - "../../modules/charclass" tests build
 - "../../modules/ooutils" tests build operationresponse objectcachesmethod operationresponse classregistry classdiamondgenerator test
 - "../../modules/wanage" tests build datetime mp
