@@ -41,10 +41,19 @@ sub temp_repo_path ($) {
   };
 } # temp_repo_path
 
+sub onlog ($;$) {
+  if (@_ > 1) {
+    $_[0]->{onlog} = $_[1];
+  }
+  return $_[0]->{onlog} ||= sub {
+    my ($msg, %args) = @_;
+    warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+  };
+} # onload
+
 sub log ($$%) {
-  my ($self, $msg, %args) = @_;
-  # XXX
-  warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+  my $self = shift;
+  $self->onlog->(@_);
 } # log
 
 sub git_clone_as_cv ($) {

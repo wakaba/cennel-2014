@@ -57,6 +57,10 @@ sub process ($$$) {
           %{$rules->{$name}->{$branch}},
         };
         my $act = Cennel::Process::RunAction->new_from_def ($def);
+        $act->onlog (sub {
+          my ($msg, %args) = @_;
+          warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+        });
         $act->run_as_cv->cb (sub {
           my $result = $_[0]->recv;
           if ($result->{error}) {
