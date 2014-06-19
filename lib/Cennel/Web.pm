@@ -69,7 +69,7 @@ sub process ($$$) {
             $class->ikachan (1, sprintf "%s %s (%s -> %s) update failed", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
             return $app->send_error (500);
           } else {
-            $class->ikachan (0, sprintf "%s %s (%s -> %s) updated", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
+            $class->ikachan (0, sprintf "%s %s (%s -> %s) updated%s", $name, $branch, (substr $old_revision, 0, 10), (substr $revision, 0, 10), defined $def->{message} ? ' ' . $def->{message} : '');
             return $app->send_error (200);
           }
         });
