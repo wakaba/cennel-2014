@@ -3,6 +3,7 @@ all:
 WGET = wget
 CURL = curl
 GIT = git
+PERL = ./perl
 
 updatenightly: local/bin/pmbp.pl
 	$(CURL) -s -S -L https://gist.githubusercontent.com/wakaba/34a71d3137a52abb562d/raw/gistfile1.txt | sh
@@ -33,9 +34,8 @@ pmbp-install: pmbp-upgrade
 ## ------ Deploy ------
 
 cinnamon:
-	perl local/bin/pmbp.pl --install-perl-app git://github.com/wakaba/cinnamon
-	cd local/cinnamon && perl local/bin/pmbp.pl --create-perl-command-shortcut cinnamon=bin/cinnamon
-	cp local/cinnamon/cinnamon cin
+	$(PERL) local/bin/pmbp.pl --install-perl-app git://github.com/wakaba/cinnamon
+	$(PERL) local/bin/pmbp.pl --create-perl-command-shortcut cin=local/cinnamon/cin
 
 ## ------ Tests ------
 
@@ -43,7 +43,12 @@ PROVE = ./prove
 
 test: test-deps test-main
 
-test-deps: deps
+test-deps: deps test-home
+
+test-home:
+	mkdir -p local/home
+	$(GIT) config --file local/home/.gitconfig user.name test
+	$(GIT) config --file local/home/.gitconfig user.email test@test
 
 test-main:
-	$(PROVE) t/*.t
+	HOME="$(abspath local/home)" $(PROVE) t/*.t
