@@ -24,12 +24,17 @@ sub psgi_app ($$) {
 
 sub process ($$$) {
   my ($class, $app, $rules) = @_;
+  $app->requires_valid_content_length;
+  $app->requires_mime_type;
+  $app->requires_request_method;
+  $app->requires_same_origin
+      if not $app->http->request_method_is_safe and
+         defined $app->http->get_request_header ('Origin');
 
   if (@{$app->path_segments} == 1 and
       $app->path_segments->[0] eq 'hook') {
     # /hook
     $app->requires_request_method ({POST => 1});
-    $app->requires_same_origin;
 
     ## <https://developer.github.com/webhooks/>
     ## <https://developer.github.com/v3/activity/events/types/#pushevent>
