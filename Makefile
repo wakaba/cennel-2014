@@ -43,7 +43,12 @@ PROVE = ./prove
 
 test: test-deps test-main
 
-test-deps: deps
+test-deps: deps test-home
+
+test-home:
+	mkdir -p local/home
+	$(GIT) config --file local/home/.gitconfig user.name test
+	$(GIT) config --file local/home/.gitconfig user.email test@test
 
 test-main:
-	$(PROVE) t/*.t
+	HOME="$(abspath local/home)" $(PROVE) t/*.t
