@@ -10,6 +10,10 @@ sub new_from_def ($$) {
   return bless {def => $_[1]}, $_[0];
 } # new_from_def
 
+sub git ($;$) {
+  return defined $_[0]->{def}->{git_path} ? $_[0]->{def}->{git_path} : 'git';
+} # git
+
 sub git_url ($) {
   return $_[0]->{def}->{git_url};
 } # git_url
@@ -46,7 +50,7 @@ sub log ($$%) {
 sub git_clone_as_cv ($) {
   my $self = $_[0];
   my $cv = AE::cv;
-  my $cmd = ['git', 'clone', '--depth', 20, '--branch', $self->git_branch, $self->git_url, $self->temp_repo_path];
+  my $cmd = [$self->git, 'clone', '--depth', 20, '--branch', $self->git_branch, $self->git_url, $self->temp_repo_path];
   $self->log ((join ' ', '$', @$cmd), class => 'command');
   my $stderr = '';
   run_cmd (
@@ -62,7 +66,7 @@ sub git_clone_as_cv ($) {
     if ($result->{error} or not defined $self->git_revision) {
       $cv->send ($result);
     } else {
-      my $cmd = ['git', 'checkout', $self->git_revision];
+      my $cmd = [$self->git, 'checkout', $self->git_revision];
       $self->log ((join ' ', '$', @$cmd), class => 'command');
       my $cd = $self->temp_repo_path;
       run_cmd (
