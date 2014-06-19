@@ -40,7 +40,7 @@ sub process ($$$) {
     ## <https://developer.github.com/v3/activity/events/types/#pushevent>
     my $event = $app->http->get_request_header ('X-Github-Event');
     if (defined $event and $event eq 'push') {
-      my $input = json_bytes2perl $app->http->request_body_as_ref;
+      my $input = json_bytes2perl ${$app->http->request_body_as_ref};
       return $app->throw_error (422) unless ref $input eq 'HASH';
       my $name = $app->bare_param ('repo');
       my $revision = $input->{head};
