@@ -48,18 +48,18 @@ sub git_clone_as_cv ($) {
   my $cv = AE::cv;
   my $cmd = ['git', 'clone', '--depth', 20, '--branch', $self->git_branch, $self->git_url, $self->temp_repo_path];
   $self->log ((join ' ', '$', @$cmd), class => 'command');
-  my $error = '';
+  my $stderr = '';
   run_cmd (
     $cmd,
     '<' => \'',
     '>' => sub { $self->log ($_[0], channel => 'stdout') },
-    '2>' => sub { $error .= $_[0] if defined $_[0]; $self->log ($_[0], channel => 'stderr') },
+    '2>' => sub { $stderr .= $_[0] if defined $_[0]; $self->log ($_[0], channel => 'stderr') },
   )->cb (sub {
     my $result = {error => ($_[0]->recv >> 8) != 0};
-    if ($error =~ /^warning: Remote branch \Q@{[$self->git_branch]}\E not found in upstream origin, using HEAD instead$/m) {
+    if ($stderr =~ /^warning: Remote branch \Q@{[$self->git_branch]}\E not found in upstream origin, using HEAD instead$/m) {
       $result->{error} = 1;
     }
-    if ($error or not defined $self->git_revision) {
+    if ($result->{error} or not defined $self->git_revision) {
       $cv->send ($result);
     } else {
       my $cmd = ['git', 'checkout', $self->git_revision];
