@@ -18,6 +18,10 @@ sub git_branch ($) {
   return defined $_[0]->{def}->{git_branch} ? $_[0]->{def}->{git_branch} : 'master';
 } # git_branch
 
+sub git_revision ($) {
+  return $_[0]->{def}->{git_revision};
+} # git_revision
+
 sub cin_role ($) {
   return $_[0]->{def}->{cinnamon_role};
 } # cin_role
@@ -55,7 +59,21 @@ sub git_clone_as_cv ($) {
     if ($error =~ /^warning: Remote branch \Q@{[$self->git_branch]}\E not found in upstream origin, using HEAD instead$/m) {
       $result->{error} = 1;
     }
-    $cv->send ($result);
+    if ($error or not defined $self->git_revision) {
+      $cv->send ($result);
+    } else {
+      my $cmd = ['git', 'checkout', $self->git_revision];
+      $self->log ((join ' ', '$', @$cmd), class => 'command');
+      my $cd = $self->temp_repo_path;
+      run_cmd (
+        "cd \Q$cd\E && " . (join ' ', map { quotemeta $_ } @$cmd),
+        '<' => \'',
+        '>' => sub { $self->log ($_[0], channel => 'stdout') },
+        '2>' => sub { $self->log ($_[0], channel => 'stderr') },
+      )->cb (sub {
+        $cv->send ({error => ($_[0]->recv >> 8) != 0});
+      });
+    }
   });
   return $cv;
 } # git_clone_as_cv

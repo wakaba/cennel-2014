@@ -210,4 +210,82 @@ test {
   });
 } n => 3, name => 'branch not found';
 
+test {
+  my $c = shift;
+
+  my $src_repo = src_repo {
+    'config/deploy.pl' => q{
+      use Cinnamon::DSL;
+      role default => ['host1'];
+      task action => sub {
+        my ($host, @args) = @_;
+        run 'touch', 'hoge.txt';
+      };
+      1;
+    },
+  };
+  my $rev = `cd \Q$src_repo\E && git rev-parse HEAD`;
+  chomp $rev;
+  (system "cd \Q$src_repo\E && touch fuga.txt && git add fuga.txt && git commit -m fuga") == 0 or die $?;
+
+  my $action = Cennel::Process::RunAction->new_from_def ({
+    git_url => '' . $src_repo,
+    git_revision => $rev,
+    cinnamon_role => 'default',
+    cinnamon_task => 'action',
+  });
+
+  $action->run_as_cv->cb (sub {
+    my $result = $_[0]->recv;
+    test {
+      eq_or_diff $result, {};
+
+      my $repo_path = $action->temp_repo_path;
+      isnt ''.$repo_path, ''.$src_repo;
+      ok $repo_path->is_dir;
+      ok $repo_path->child ('hoge.txt')->is_file;
+      ok not $repo_path->child ('fuga.txt')->is_file;
+      done $c;
+      undef $c;
+    } $c;
+  });
+} n => 5, name => 'revision found';
+
+test {
+  my $c = shift;
+
+  my $src_repo = src_repo {
+    'config/deploy.pl' => q{
+      use Cinnamon::DSL;
+      role default => ['host1'];
+      task action => sub {
+        my ($host, @args) = @_;
+        run 'touch', 'hoge.txt';
+      };
+      1;
+    },
+  };
+
+  my $action = Cennel::Process::RunAction->new_from_def ({
+    git_url => '' . $src_repo,
+    git_revision => 'hogefuga',
+    cinnamon_role => 'default',
+    cinnamon_task => 'action',
+  });
+
+  $action->run_as_cv->cb (sub {
+    my $result = $_[0]->recv;
+    test {
+      eq_or_diff $result, {error => 1};
+
+      my $repo_path = $action->temp_repo_path;
+      isnt ''.$repo_path, ''.$src_repo;
+      ok $repo_path->is_dir;
+      ok not $repo_path->child ('hoge.txt')->is_file;
+      done $c;
+      undef $c;
+    } $c;
+  });
+} n => 4, name => 'revision not found';
+
 run_tests;
