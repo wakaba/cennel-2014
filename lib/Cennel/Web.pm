@@ -62,14 +62,14 @@ sub process ($$$) {
           my ($msg, %args) = @_;
           warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
         });
-        $class->ikachan (0, sprintf "%s %s (%s -> %s) updating...", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
+        $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s (%s -> %s) updating...", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
         $act->run_as_cv->cb (sub {
           my $result = $_[0]->recv;
           if ($result->{error}) {
-            $class->ikachan (1, sprintf "%s %s (%s -> %s) update failed", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
+            $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 1, sprintf "%s %s (%s -> %s) update failed", $name, $branch, (substr $old_revision, 0, 10), substr $revision, 0, 10);
             return $app->send_error (500);
           } else {
-            $class->ikachan (0, sprintf "%s %s (%s -> %s) updated%s", $name, $branch, (substr $old_revision, 0, 10), (substr $revision, 0, 10), defined $def->{message} ? ' ' . $def->{message} : '');
+            $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s (%s -> %s) updated%s", $name, $branch, (substr $old_revision, 0, 10), (substr $revision, 0, 10), defined $def->{message} ? ' ' . $def->{message} : '');
             return $app->send_error (200);
           }
         });
@@ -92,12 +92,12 @@ my $AppName = __PACKAGE__;
 $AppName =~ s{::Web$}{};
 
 sub ikachan {
-  my ($class, $privmsg, $msg) = @_;
-  my $host = $Config->get_text('ikachan_host');
+  my ($class, $url_prefix, $channel, $privmsg, $msg) = @_;
+  return unless defined $url_prefix;
   http_post
-    url => qq<http://$host/> . ($privmsg ? 'privmsg' : 'notice'),
+    url => $url_prefix . ($privmsg ? 'privmsg' : 'notice'),
     params => {
-      channel => $Config->get_text('ikachan_channel'),
+      channel => $channel,
       message => sprintf "%s[%s] %s", $AppName, $ThisHost, $msg,
     },
     anyevent => 1,
