@@ -3,6 +3,7 @@ Capture::Tiny~0.25
 JSON::XS~3.01
 IO::HTML~1.001
 Encode~2.62
+HTTP::Headers~6.05
 CPAN::Meta~2.142690
 HTTP::Daemon~6.01
 Module::Build~0.4210
@@ -10,12 +11,10 @@ List::MoreUtils~0.33
 Devel::StackTrace~1.34
 Net::HTTPS~6.04
 HTTP::Body~1.19
-HTTP::Message~6.06
 POSIX::strftime::Compiler~0.40
 Test::Differences~0.62
 Path::Class~0.35
 common::sense~3.73
-HTTP::Request~6.00
 IO::Socket::Socks~0.65
 Types::Serialiser~1.0
 IO::Handle~1.28
@@ -25,6 +24,7 @@ HTML::Entities~3.69
 Parallel::Prefork~0.17
 Algorithm::Diff~1.1902
 Path::Tiny~0.058
+Net::HTTP~6.07
 URI~1.64
 Plack~1.0031
 Test::Tester~0.109
@@ -43,8 +43,8 @@ File::Listing~6.04
 Stream::Buffered~0.03
 Test::TCP~2.06
 Twiggy::Prefork~0.08
-Test::Builder~1.001006
 AnyEvent::Util
+Test::Builder~1.001006
 Crypt::SSLeay~0.72
 Time::Local~1.2300
 Test::SharedFork~0.29
@@ -53,8 +53,8 @@ AnyEvent~7.07
 Term::ANSIColor~4.03
 Exporter::Lite~0.06
 Server::Starter~0.17
-HTML::HeadParser~3.71
 Twiggy~0.1024
+HTML::HeadParser~3.71
 AnyEvent::HTTP~2.21
 HTTP::Cookies~6.01
 HTTP::Request::Common~6.04
@@ -65,8 +65,8 @@ Signal::Mask~0.008
 Class::Inspector~1.28
 WWW::RobotRules~6.02
 Unicode::Stringprep~1.105
-Test::Requires~0.08
 Scalar::Util~1.41
+Test::Requires~0.08
 Scope::Guard~0.20
 IPC::Signal~1.00
 Encode::Locale~1.03
