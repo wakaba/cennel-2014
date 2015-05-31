@@ -96,10 +96,10 @@ sub process ($$$) {
           my $result = $_[0]->recv;
           if ($result->{error}) {
             $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 1, sprintf "%s %s update failed", $name, $branch);
-            return $app->throw_error (500);
+            return $app->send_error (500);
           } else {
             $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updated%s", $name, $branch, defined $def->{message} ? ' ' . $def->{message} : '');
-            return $app->throw_error (200);
+            return $app->send_error (200);
           }
         });
         return $app->throw;
