@@ -68,6 +68,25 @@ sub process ($$$) {
       } else {
         return $app->throw_error (204);
       }
+
+    } elsif (defined (my $name = $app->text_param ('name')) and
+             my $branch = 'master' and
+             $rules->{$name}->{$branch}) {
+      my $def = {
+        git_branch => $branch,
+        git_revision => $revision,
+        %{$rules->{$name}->{$branch}},
+      };
+      my $act = Cennel::Process::RunAction->new_from_def ($def);
+      $act->run_as_cv->cb (sub {
+        my $result = $_[0]->recv;
+        if ($result->{error}) {
+          return $app->throw_error (500);
+        } else {
+          return $app->throw_error (200);
+        }
+      });
+      
     } else {
       return $app->throw_error (204);
     }
