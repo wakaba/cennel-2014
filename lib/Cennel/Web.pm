@@ -91,11 +91,11 @@ sub process ($$$) {
         my ($msg, %args) = @_;
         warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
       });
-      $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updating...", $name, $branch;
+      $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updating...", $name, $branch);
       $act->run_as_cv->cb (sub {
         my $result = $_[0]->recv;
         if ($result->{error}) {
-          $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 1, sprintf "%s %s update failed", $name, $branch;
+          $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 1, sprintf "%s %s update failed", $name, $branch);
           return $app->throw_error (500);
         } else {
           $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updated%s", $name, $branch, defined $def->{message} ? ' ' . $def->{message} : '');
