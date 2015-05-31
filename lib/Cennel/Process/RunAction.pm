@@ -131,9 +131,9 @@ sub docker_restart_as_cv ($) {
 
   my $cv = AE::cv;
   my $name = 'cennel-' . $def->{docker_image};
-  $run->(['docker', 'stop', $name])->cb (sub {
-    $run->(['docker', 'rm', $name])->cb (sub {
-      $run->(['docker', 'pull', $def->{docker_image}])->cb (sub {
+  $run->(['docker', 'pull', $def->{docker_image}])->cb (sub {
+    $run->(['docker', 'stop', $name])->cb (sub {
+      $run->(['docker', 'rm', $name])->cb (sub {
         $run->(['docker', 'run', '-d', '--restart=always', "-p=$def->{docker_ext_port}:$def->{docker_int_port}", $def->{docker_image}, $def->{docker_command}])->cb (sub {
           $cv->send ($_[0]->recv);
         });
