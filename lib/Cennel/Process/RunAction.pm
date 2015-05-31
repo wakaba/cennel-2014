@@ -100,7 +100,7 @@ sub cin_as_cv ($) {
   my $cmd = [$CinPath, $self->cin_role, $self->cin_task];
   $self->log ((join ' ', '$', @$cmd), class => 'command');
   run_cmd (
-    "cd \Q$cd\E && PERL5LIB= PATH=\\\$PMBP_ORIG_PATH " . (join ' ', map { quotemeta $_ } @$cmd),
+    "cd \Q$cd\E && " . (join ' ', map { quotemeta $_ } @$cmd),
     '<' => \'',
     '>' => sub { $self->log ($_[0], channel => 'stdout') },
     '2>' => sub { $self->log ($_[0], channel => 'stderr') },
