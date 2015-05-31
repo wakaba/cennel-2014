@@ -36,7 +36,7 @@ pmbp-install: pmbp-upgrade
 cinnamon:
 	$(PERL) --version
 	$(PERL) local/bin/pmbp.pl --install-perl-app git://github.com/wakaba/cinnamon
-	echo "#" > local/cinnamon/bin/cinnamon2
+	echo "#!$(abspath $(PERL))" > local/cinnamon/bin/cinnamon2
 	cat local/cinnamon/bin/cinnamon >> local/cinnamon/bin/cinnamon2
 	cd local/cinnamon && ../../perl local/bin/pmbp.pl --create-perl-command-shortcut cinnamon=bin/cinnamon2
 	chmod u+x local/cinnamon/bin/cinnamon2
