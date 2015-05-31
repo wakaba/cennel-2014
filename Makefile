@@ -43,7 +43,6 @@ cinnamon:
 	cat local/cinnamon/cinnamon
 	cat local/cinnamon/bin/cinnamon
 	$(PERL) -e 'warn `which perl`'
-	$(PERL) -e 'warn `env perl`'
 
 ## ------ Tests ------
 
