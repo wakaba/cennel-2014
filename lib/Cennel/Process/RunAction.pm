@@ -10,6 +10,10 @@ sub new_from_def ($$) {
   return bless {def => $_[1]}, $_[0];
 } # new_from_def
 
+sub git ($;$) {
+  return defined $_[0]->{def}->{git_path} ? $_[0]->{def}->{git_path} : 'git';
+} # git
+
 sub git_url ($) {
   return $_[0]->{def}->{git_url};
 } # git_url
@@ -37,32 +41,41 @@ sub temp_repo_path ($) {
   };
 } # temp_repo_path
 
+sub onlog ($;$) {
+  if (@_ > 1) {
+    $_[0]->{onlog} = $_[1];
+  }
+  return $_[0]->{onlog} ||= sub {
+    my ($msg, %args) = @_;
+    warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+  };
+} # onload
+
 sub log ($$%) {
-  my ($self, $msg, %args) = @_;
-  # XXX
-  warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+  my $self = shift;
+  $self->onlog->(@_);
 } # log
 
 sub git_clone_as_cv ($) {
   my $self = $_[0];
   my $cv = AE::cv;
-  my $cmd = ['git', 'clone', '--depth', 20, '--branch', $self->git_branch, $self->git_url, $self->temp_repo_path];
+  my $cmd = [$self->git, 'clone', '--depth', 20, '--branch', $self->git_branch, $self->git_url, $self->temp_repo_path];
   $self->log ((join ' ', '$', @$cmd), class => 'command');
-  my $error = '';
+  my $stderr = '';
   run_cmd (
     $cmd,
     '<' => \'',
     '>' => sub { $self->log ($_[0], channel => 'stdout') },
-    '2>' => sub { $error .= $_[0] if defined $_[0]; $self->log ($_[0], channel => 'stderr') },
+    '2>' => sub { $stderr .= $_[0] if defined $_[0]; $self->log ($_[0], channel => 'stderr') },
   )->cb (sub {
     my $result = {error => ($_[0]->recv >> 8) != 0};
-    if ($error =~ /^warning: Remote branch \Q@{[$self->git_branch]}\E not found in upstream origin, using HEAD instead$/m) {
+    if ($stderr =~ /^warning: Remote branch \Q@{[$self->git_branch]}\E not found in upstream origin, using HEAD instead$/m) {
       $result->{error} = 1;
     }
-    if ($error or not defined $self->git_revision) {
+    if ($result->{error} or not defined $self->git_revision) {
       $cv->send ($result);
     } else {
-      my $cmd = ['git', 'checkout', $self->git_revision];
+      my $cmd = [$self->git, 'checkout', $self->git_revision];
       $self->log ((join ' ', '$', @$cmd), class => 'command');
       my $cd = $self->temp_repo_path;
       run_cmd (
