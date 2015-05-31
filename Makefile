@@ -39,7 +39,7 @@ cinnamon:
 	echo "#" > local/cinnamon/bin/cinnamon2
 	cat local/cinnamon/bin/cinnamon >> local/cinnamon/bin/cinnamon2
 	cd local/cinnamon && ../../perl local/bin/pmbp.pl --create-perl-command-shortcut cinnamon=bin/cinnamon2
-	chmod u+x local/cinnamon/bin/cinnamon
+	chmod u+x local/cinnamon/bin/cinnamon2
 	$(PERL) local/bin/pmbp.pl --create-perl-command-shortcut cin=local/cinnamon/cinnamon
 	cat ./cin
 	cat local/cinnamon/cin
