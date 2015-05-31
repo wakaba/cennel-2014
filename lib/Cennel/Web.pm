@@ -98,8 +98,12 @@ sub process ($$$) {
         my $act = Cennel::Process::RunAction->new_from_def ($def);
         $act->onlog (sub {
           my ($msg, %args) = @_;
-          warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
-          $app->http->send_response_body_as_ref (\$msg) if defined $msg;
+          if (defined $msg) {
+            warn "[@{[$args{channel} || '']}] $msg\n";
+            #$app->http->send_response_body_as_ref (\$msg);
+            #$app->http->send_response_body_as_ref (\"\n");
+            $app->http->send_response_body_as_ref (".");
+          }
         });
         $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updating...", $name, $branch);
         $act->run_as_cv->cb (sub {
