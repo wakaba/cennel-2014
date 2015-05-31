@@ -13,6 +13,13 @@ my $Config = Karasuma::Config::JSON->new_from_env;
 sub psgi_app ($$) {
   my ($class, $rules) = @_;
   return sub {
+    ## This is necessary so that different forked siblings have
+    ## different seeds.
+    srand;
+
+    ## XXX Parallel::Prefork (?)
+    delete $SIG{CHLD} if defined $SIG{CHLD} and not ref $SIG{CHLD};
+
     my $http = Wanage::HTTP->new_from_psgi_env ($_[0]);
     my $app = Warabe::App->new_from_http ($http);
     return $http->send_response (onready => sub {
@@ -86,20 +93,25 @@ sub process ($$$) {
           #git_revision => $revision,
           %{$rules->{$name}->{$branch}},
         };
+        $app->http->set_status (202);
+        $app->http->set_response_header ('Content-Type' => 'text/plain; charset=utf-8');
         my $act = Cennel::Process::RunAction->new_from_def ($def);
         $act->onlog (sub {
           my ($msg, %args) = @_;
           warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+          $app->http->send_response_body_as_ref (\$msg) if defined $msg;
         });
         $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updating...", $name, $branch);
         $act->run_as_cv->cb (sub {
           my $result = $_[0]->recv;
           if ($result->{error}) {
             $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 1, sprintf "%s %s update failed", $name, $branch);
-            return $app->send_error (500);
+            $app->http->send_response_body_as_ref (\"failed");
+            return $app->http->close_response_body;
           } else {
             $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updated%s", $name, $branch, defined $def->{message} ? ' ' . $def->{message} : '');
-            return $app->send_error (200);
+            $app->http->send_response_body_as_ref (\"done");
+            return $app->http->close_response_body;
           }
         });
         return $app->throw;
