@@ -77,6 +77,32 @@ sub process ($$$) {
       } else {
         return $app->throw_error (204);
       }
+
+    } elsif (defined (my $name = $app->text_param ('name')) and
+             my $branch = 'master' and
+             $rules->{$name}->{$branch}) {
+      my $def = {
+        git_branch => $branch,
+        git_revision => $revision,
+        %{$rules->{$name}->{$branch}},
+      };
+      my $act = Cennel::Process::RunAction->new_from_def ($def);
+      $act->onlog (sub {
+        my ($msg, %args) = @_;
+        warn "[@{[$args{channel} || '']}] $msg\n" if defined $msg;
+      });
+      $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updating...", $name, $branch;
+      $act->run_as_cv->cb (sub {
+        my $result = $_[0]->recv;
+        if ($result->{error}) {
+          $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 1, sprintf "%s %s update failed", $name, $branch;
+          return $app->throw_error (500);
+        } else {
+          $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updated%s", $name, $branch, defined $def->{message} ? ' ' . $def->{message} : '');
+          return $app->throw_error (200);
+        }
+      });
+      
     } else {
       return $app->throw_error (204);
     }

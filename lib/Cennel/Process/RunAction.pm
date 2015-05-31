@@ -110,10 +110,47 @@ sub cin_as_cv ($) {
   return $cv;
 } # cin_as_cv
 
+sub docker_restart_as_cv ($) {
+  my $self = $_[0];
+  my $def = $self->{def};
+
+  my $run = sub {
+    my $cmd = $_[0];
+    $self->log ((join ' ', '$', @$cmd), class => 'command');
+    my $cv = AE::cv;
+    run_cmd (
+      $cmd,
+      '<' => \'',
+      '>' => sub { $self->log ($_[0], channel => 'stdout') },
+      '2>' => sub { $self->log ($_[0], channel => 'stderr') },
+    )->cb (sub {
+      $cv->send ({error => ($_[0]->recv >> 8) != 0});
+    });
+    return $cv;
+  }; # $run
+
+  my $cv = AE::cv;
+  my $name = 'cennel-' . $def->{docker_image};
+  $run->(['docker', 'stop', $name])->cb (sub {
+    $run->(['docker', 'rm', $name])->cb (sub {
+      $run->(['docker', 'pull', $def->{docker_image}])->cb (sub {
+        $run->(['docker', 'run', '-d', '--restart=always', "-p=$def->{docker_ext_port}:$def->{docker_int_port}", $def->{docker_image}, $def->{docker_command}])->cb (sub {
+          $cv->send ($_[0]->recv);
+        });
+      });
+    });
+  });
+  return $cv;
+} # docker_restart_as_cv
+
 sub run_as_cv ($) {
   my ($self) = @_;
-  my $cv = AE::cv;
 
+  if (defined $self->{def}->{docker_command}) {
+    return $self->docker_restart_as_cv;
+  }
+
+  my $cv = AE::cv;
   $self->git_clone_as_cv->cb (sub {
     my $result = $_[0]->recv;
     unless ($result->{error}) {
