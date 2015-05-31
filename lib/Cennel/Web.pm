@@ -102,7 +102,7 @@ sub process ($$$) {
             warn "[@{[$args{channel} || '']}] $msg\n";
             #$app->http->send_response_body_as_ref (\$msg);
             #$app->http->send_response_body_as_ref (\"\n");
-            $app->http->send_response_body_as_ref (".");
+            $app->http->send_response_body_as_ref (\".");
           }
         });
         $class->ikachan ($def->{ikachan_url_prefix}, $def->{ikachan_channel}, 0, sprintf "%s %s updating...", $name, $branch);
