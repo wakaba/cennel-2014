@@ -41,6 +41,9 @@ cinnamon:
 	cat ./cin
 	cat local/cinnamon/cin
 	cat local/cinnamon/cinnamon
+	cat local/cinnamon/bin/cinnamon
+	$(PERL) -e 'warn `which perl`'
+	$(PERL) -e 'warn `env perl`'
 
 ## ------ Tests ------
 
