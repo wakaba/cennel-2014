@@ -135,8 +135,27 @@ sub docker_restart_as_cv ($) {
   $run->(['docker', 'pull', $def->{docker_image}])->cb (sub {
     $run->(['docker', 'stop', $name])->cb (sub {
       $run->(['docker', 'rm', $name])->cb (sub {
-        $run->(['docker', 'run', '-d', '--name=' . $name, '--restart=always', "-p=$def->{docker_ext_port}:$def->{docker_int_port}", @{$def->{docker_run_options} || []}, $def->{docker_image}, $def->{docker_command}])->cb (sub {
-          $cv->send ($_[0]->recv);
+        my $ip;
+        run_cmd (
+          ['sh', '-c', q{ip route | awk '/docker0/ { print $NF }'}],
+          '<' => \'',
+          '>' => \$ip,
+        )->cb (sub {
+          if (($_[0]->recv >> 8) == 0 and
+              $ip =~ /^([0-9.]+)$/) {
+            $ip = $1;
+            $run->(['docker', 'run',
+                    '-d', '--name=' . $name, '--restart=always',
+                    "-p=$def->{docker_ext_port}:$def->{docker_int_port}",
+                    '--add-host=dockerhost:' . $ip,
+                    @{$def->{docker_run_options} || []},
+                    $def->{docker_image},
+                    $def->{docker_command}])->cb (sub {
+              $cv->send ($_[0]->recv);
+            });
+          } else {
+            $cv->send ({error => 1});
+          }
         });
       });
     });
