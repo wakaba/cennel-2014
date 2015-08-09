@@ -132,6 +132,7 @@ sub docker_restart_as_cv ($) {
   my $cv = AE::cv;
   my $name = 'cennel-' . $def->{docker_image};
   $name =~ s{/}{-};
+  $name =~ tr/[^A-Za-z0-9_-]/_/;
   $run->(['docker', 'pull', $def->{docker_image}])->cb (sub {
     $run->(['docker', 'stop', $name])->cb (sub {
       $run->(['docker', 'rm', $name])->cb (sub {
