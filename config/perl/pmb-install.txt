@@ -1,7 +1,6 @@
 Net::SSLeay~1.70
 Capture::Tiny~0.30
 JSON::XS~3.01
-HTTP::Status~6.10
 Encode~2.76
 IO::HTML~1.001
 HTTP::Headers~6.10
@@ -16,15 +15,16 @@ Test::Differences~0.63
 Path::Class~0.35
 common::sense~3.74
 IO::Socket::Socks~0.67
+HTTP::Request~6.10
 Types::Serialiser~1.0
 IO::Handle~1.28
 LWP::MediaTypes~6.02
 Unicode::Normalize~1.19
 Cookie::Baker~0.06
+HTML::Entities~3.69
 Parallel::Prefork~0.17
 Algorithm::Diff~1.1903
 Path::Tiny~0.072
-Net::HTTP~6.09
 URI~1.69
 Plack~1.0037
 Exporter~5.72
@@ -43,9 +43,9 @@ Test::NoWarnings~1.04
 File::Listing~6.04
 Stream::Buffered~0.03
 Test::TCP~2.13
-AnyEvent::Util
 Twiggy::Prefork~0.08
 Test::Builder~1.001014
+AnyEvent::Util
 Crypt::SSLeay~0.72
 Time::Local~1.2300
 Test::SharedFork~0.33
@@ -60,7 +60,6 @@ AnyEvent::HTTP~2.22
 HTTP::Cookies~6.01
 Text::Diff~1.43
 AnyEvent::HTTP::Socks~0.05
-HTTP::Response~6.10
 File::Temp~0.2304
 Signal::Mask~0.008
 Class::Inspector~1.28
@@ -76,6 +75,7 @@ File::ShareDir~1.102
 LWP::Protocol::https~6.06
 Hash::MultiValue~0.16
 IO::Socket::SSL~2.019
+HTTP::Headers::Util~6.10
 Apache::LogFormat::Compiler~0.32
 Time::HiRes~1.9726
 HTTP::Date~6.02
