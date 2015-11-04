@@ -134,7 +134,7 @@ sub docker_restart_as_cv ($) {
   $name =~ s{/}{-}g;
   $name =~ s/[^A-Za-z0-9_-]/_/g;
   $run->(['docker', 'pull', $def->{docker_image}])->cb (sub {
-    $run->(['docker', 'stop', $name])->cb (sub {
+    $run->(['docker', 'kill', $name])->cb (sub {
       $run->(['docker', 'rm', $name])->cb (sub {
         my $ip;
         run_cmd (
