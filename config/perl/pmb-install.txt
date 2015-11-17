@@ -8,6 +8,7 @@ HTTP::Headers~6.11
 HTTP::Daemon~6.01
 List::MoreUtils~0.413
 Devel::StackTrace~2.00
+Net::HTTPS~6.09
 HTTP::Body~1.22
 Canary::Stability~2006
 POSIX::strftime::Compiler~0.41
@@ -23,8 +24,7 @@ Unicode::Normalize~1.23
 Cookie::Baker~0.06
 Parallel::Prefork~0.17
 Algorithm::Diff~1.1903
-Path::Tiny~0.072
-Net::HTTP~6.09
+Path::Tiny~0.076
 URI~1.69
 Plack~1.0037
 Exporter~5.72
@@ -43,8 +43,8 @@ Test::NoWarnings~1.04
 File::Listing~6.04
 Stream::Buffered~0.03
 Test::TCP~2.14
-Twiggy::Prefork~0.08
 AnyEvent::Util
+Twiggy::Prefork~0.08
 Test::Builder~1.001014
 Crypt::SSLeay~0.72
 Time::Local~1.2300
@@ -65,8 +65,8 @@ Signal::Mask~0.008
 Class::Inspector~1.28
 WWW::RobotRules~6.02
 Unicode::Stringprep~1.105
-Scalar::Util~1.42
 Test::Requires~0.10
+Scalar::Util~1.42
 Scope::Guard~0.21
 IPC::Signal~1.00
 Encode::Locale~1.05
