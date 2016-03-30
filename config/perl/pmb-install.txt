@@ -15,12 +15,12 @@ Test::Differences~0.64
 Path::Class~0.36
 common::sense~3.74
 IO::Socket::Socks~0.68
-HTTP::Request~6.11
 Types::Serialiser~1.0
 IO::Handle~1.28
 LWP::MediaTypes~6.02
 Unicode::Normalize~1.25
 Cookie::Baker~0.06
+HTML::Entities~3.69
 Parallel::Prefork~0.18
 Algorithm::Diff~1.1903
 Path::Tiny~0.084
@@ -74,7 +74,6 @@ File::ShareDir~1.102
 LWP::Protocol::https~6.06
 Hash::MultiValue~0.16
 IO::Socket::SSL~2.024
-HTTP::Headers::Util~6.11
 Apache::LogFormat::Compiler~0.33
 Time::HiRes~1.9732
 HTTP::Date~6.02
