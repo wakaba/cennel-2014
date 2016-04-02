@@ -4,6 +4,7 @@ JSON::XS~3.02
 HTTP::Status~6.11
 Encode~2.83
 IO::HTML~1.001
+HTTP::Headers~6.11
 HTTP::Daemon~6.01
 List::MoreUtils~0.413
 Devel::StackTrace~2.01
@@ -30,10 +31,10 @@ Exporter~5.72
 Class::Accessor::Lite~0.08
 Carp~1.38
 Proc::Wait3~0.05
-LWP::UserAgent~6.15
 Filesys::Notify::Simple~0.12
+LWP::UserAgent~6.15
 MIME::Base64~3.15
-Devel::StackTrace::AsHTML~0.14
+Devel::StackTrace::AsHTML~0.15
 HTML::Tagset~3.20
 Exporter::Tiny~0.042
 File::ShareDir::Install~0.10
@@ -42,9 +43,9 @@ Test::NoWarnings~1.04
 File::Listing~6.04
 Stream::Buffered~0.03
 Test::TCP~2.15
-AnyEvent::Util
 Twiggy::Prefork~0.08
 Test::Builder~1.001014
+AnyEvent::Util
 Crypt::SSLeay~0.72
 Time::Local~1.2300
 Test::SharedFork~0.35
@@ -64,8 +65,8 @@ Signal::Mask~0.008
 Class::Inspector~1.28
 WWW::RobotRules~6.02
 Unicode::Stringprep~1.105
-Test::Requires~0.10
 Scalar::Util~1.45
+Test::Requires~0.10
 Scope::Guard~0.21
 IPC::Signal~1.00
 Encode::Locale~1.05
