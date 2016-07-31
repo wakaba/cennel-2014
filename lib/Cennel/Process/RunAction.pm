@@ -169,7 +169,7 @@ sub docker_restart_as_cv ($) {
 sub wait_for_lock_as_cv ($) {
   my $cv = AE::cv;
 
-  AnyEvent::FileLock->flock
+  my $w; $w = AnyEvent::FileLock->flock
       (file => $LockPath->stringify,
        mode => '>',
        timeout => 60*10,
@@ -180,6 +180,7 @@ sub wait_for_lock_as_cv ($) {
          } else {
            $cv->croak ($!);
          }
+         undef $w;
        });
 
   return $cv;
