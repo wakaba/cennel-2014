@@ -1,4 +1,5 @@
 AnyEvent
+AnyEvent::FileLock
 AnyEvent::Util
 File::Temp
 Path::Tiny

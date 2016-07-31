@@ -4,6 +4,7 @@ use warnings;
 use File::Temp;
 use Path::Tiny;
 use AnyEvent;
+use AnyEvent::FileLock;
 use AnyEvent::Util qw(run_cmd);
 
 sub new_from_def ($$) {
@@ -92,6 +93,7 @@ sub git_clone_as_cv ($) {
 } # git_clone_as_cv
 
 my $CinPath = path (__FILE__)->parent->parent->parent->parent->child ('cin')->absolute;
+my $LockPath = path (__FILE__)->parent->parent->parent->parent->child ('local/flock')->absolute;
 
 sub cin_as_cv ($) {
   my ($self) = @_;
@@ -164,14 +166,33 @@ sub docker_restart_as_cv ($) {
   return $cv;
 } # docker_restart_as_cv
 
+sub wait_for_lock_as_cv ($) {
+  my $cv = AE::cv;
+
+  AnyEvent::FileLock->flock
+      (file => $LockPath->stringify,
+       mode => '>',
+       timeout => 60*30,
+       cb => sub {
+         $cv->send;
+       });
+
+  return $cv;
+} # wait_for_lock_as_cv
+
 sub run_as_cv ($) {
   my ($self) = @_;
+  my $cv = AE::cv;
 
   if (defined $self->{def}->{docker_command}) {
-    return $self->docker_restart_as_cv;
+    $self->wait_for_lock_as_cv->cb (sub {
+      $self->docker_restart_as_cv->cb (sub {
+        $cv->send ($_[0]->recv);
+      });
+    });
+    return $cv;
   }
 
-  my $cv = AE::cv;
   $self->git_clone_as_cv->cb (sub {
     my $result = $_[0]->recv;
     unless ($result->{error}) {
