@@ -192,7 +192,7 @@ sub run_as_cv ($) {
 
   if (defined $self->{def}->{docker_command}) {
     $self->wait_for_lock_as_cv->cb (sub {
-      my $lock_file = $_[0];
+      my $lock_file = $_[0]->recv;
       $self->docker_restart_as_cv->cb (sub {
         close $lock_file;
         $cv->send ($_[0]->recv);
