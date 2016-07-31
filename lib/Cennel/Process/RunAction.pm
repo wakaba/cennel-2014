@@ -174,7 +174,12 @@ sub wait_for_lock_as_cv ($) {
        mode => '>',
        timeout => 60*10,
        cb => sub {
-         $cv->send;
+         my $file = $_[0];
+         if (defined $file) {
+           $cv->send ($file);
+         } else {
+           $cv->croak ($!);
+         }
        });
 
   return $cv;
@@ -186,7 +191,9 @@ sub run_as_cv ($) {
 
   if (defined $self->{def}->{docker_command}) {
     $self->wait_for_lock_as_cv->cb (sub {
+      my $lock_file = $_[0];
       $self->docker_restart_as_cv->cb (sub {
+        close $lock_file;
         $cv->send ($_[0]->recv);
       });
     });
