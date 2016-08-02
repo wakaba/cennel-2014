@@ -172,7 +172,7 @@ sub wait_for_lock_as_cv ($) {
   my $w; $w = AnyEvent::FileLock->flock
       (file => $LockPath->stringify,
        mode => '>',
-       timeout => 60*10,
+       timeout => 60*30,
        cb => sub {
          my $file = $_[0];
          if (defined $file) {
