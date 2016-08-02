@@ -172,7 +172,7 @@ sub wait_for_lock_as_cv ($) {
   my $w; $w = AnyEvent::FileLock->flock
       (file => $LockPath->stringify,
        mode => '>',
-       timeout => 60*10,
+       timeout => 60*30,
        cb => sub {
          my $file = $_[0];
          if (defined $file) {
@@ -192,7 +192,11 @@ sub run_as_cv ($) {
 
   if (defined $self->{def}->{docker_command}) {
     $self->wait_for_lock_as_cv->cb (sub {
-      my $lock_file = $_[0]->recv;
+      my $lock_file = eval { $_[0]->recv };
+      if ($@) {
+        $cv->send ({error => $@});
+        return;
+      }
       $self->docker_restart_as_cv->cb (sub {
         close $lock_file;
         $cv->send ($_[0]->recv);
