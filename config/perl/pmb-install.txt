@@ -33,8 +33,10 @@ HTTP::Cookies~6.01
 HTTP::Daemon~6.01
 HTTP::Date~6.02
 HTTP::Headers::Fast~0.20
+HTTP::Headers::Util~6.11
+HTTP::Message~6.11
 HTTP::Negotiate~6.01
-HTTP::Status~6.11
+HTTP::Request~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
 IO::Handle~1.28
@@ -50,6 +52,7 @@ MIME::Base64~3.15
 Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
+Net::HTTP~6.09
 Net::HTTPS~6.09
 Net::SSLeay~1.78
 POSIX::strftime::Compiler~0.42
