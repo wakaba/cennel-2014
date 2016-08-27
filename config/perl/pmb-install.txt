@@ -32,8 +32,8 @@ HTTP::Body~1.22
 HTTP::Cookies~6.01
 HTTP::Daemon~6.01
 HTTP::Date~6.02
+HTTP::Headers~6.11
 HTTP::Headers::Fast~0.20
-HTTP::Headers::Util~6.11
 HTTP::Negotiate~6.01
 HTTP::Status~6.11
 Hash::MultiValue~0.16
@@ -51,7 +51,6 @@ MIME::Base64~3.15
 Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
-Net::HTTP~6.09
 Net::HTTPS~6.09
 Net::SSLeay~1.78
 POSIX::strftime::Compiler~0.42
@@ -80,6 +79,7 @@ Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
 URI~1.71
+URI::Escape~3.31
 Unicode::Stringprep~1.105
 WWW::RobotRules~6.02
 XSLoader~0.22
