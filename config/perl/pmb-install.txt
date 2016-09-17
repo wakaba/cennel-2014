@@ -33,8 +33,8 @@ HTTP::Cookies~6.01
 HTTP::Daemon~6.01
 HTTP::Date~6.02
 HTTP::Headers::Fast~0.20
+HTTP::Headers::Util~6.11
 HTTP::Negotiate~6.01
-HTTP::Request~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
