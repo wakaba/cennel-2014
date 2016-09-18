@@ -1,5 +1,5 @@
 Algorithm::Diff~1.1903
-AnyEvent~7.12
+AnyEvent~7.13
 AnyEvent::FileLock~0.03
 AnyEvent::HTTP~2.23
 AnyEvent::HTTP::Socks~0.05
@@ -32,14 +32,15 @@ HTTP::Body~1.22
 HTTP::Cookies~6.01
 HTTP::Daemon~6.01
 HTTP::Date~6.02
+HTTP::Headers~6.11
 HTTP::Headers::Fast~0.20
-HTTP::Headers::Util~6.11
 HTTP::Negotiate~6.01
-HTTP::Status~6.11
+HTTP::Request::Common~6.11
+HTTP::Response~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
 IO::Handle~1.28
-IO::Socket::SSL~2.037
+IO::Socket::SSL~2.038
 IO::Socket::Socks~0.68
 IPC::Signal~1.00
 JSON::XS~3.02
