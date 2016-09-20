@@ -35,8 +35,7 @@ HTTP::Date~6.02
 HTTP::Headers~6.11
 HTTP::Headers::Fast~0.20
 HTTP::Negotiate~6.01
-HTTP::Request::Common~6.11
-HTTP::Response~6.11
+HTTP::Status~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
 IO::Handle~1.28
