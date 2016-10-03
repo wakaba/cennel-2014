@@ -35,7 +35,6 @@ HTTP::Entity::Parser~0.17
 HTTP::Headers::Fast~0.20
 HTTP::MultiPartParser~0.01
 HTTP::Negotiate~6.01
-HTTP::Request::Common~6.11
 HTTP::Response~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
@@ -55,6 +54,7 @@ Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
 Net::HTTP~6.09
+Net::HTTPS~6.09
 Net::SSLeay~1.78
 POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
