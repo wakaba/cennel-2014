@@ -37,7 +37,6 @@ HTTP::Headers::Fast~0.20
 HTTP::Message~6.11
 HTTP::MultiPartParser~0.01
 HTTP::Negotiate~6.01
-HTTP::Request~6.11
 HTTP::Request::Common~6.11
 HTTP::Response~6.11
 Hash::MultiValue~0.16
@@ -71,9 +70,9 @@ Server::Starter~0.32
 Signal::Mask~0.008
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302067
 Test::Deep~1.124
 Test::Differences~0.64
+Test::More~1.302067
 Test::Requires~0.10
 Test::SharedFork~0.35
 Test::TCP~2.17
