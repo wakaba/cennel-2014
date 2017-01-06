@@ -3,6 +3,7 @@ AnyEvent~7.13
 AnyEvent::FileLock~0.03
 AnyEvent::HTTP~2.23
 AnyEvent::HTTP::Socks~0.05
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.33
 Canary::Stability~2012
 Capture::Tiny~0.44
@@ -36,11 +37,11 @@ HTTP::Headers::Fast~0.20
 HTTP::Message~6.11
 HTTP::MultiPartParser~0.01
 HTTP::Negotiate~6.01
-HTTP::Response~6.11
+HTTP::Request~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
 IO::Handle~1.28
-IO::Socket::SSL~2.042
+IO::Socket::SSL~2.043
 IO::Socket::Socks~0.73
 IPC::Signal~1.00
 JSON::MaybeXS~1.003008
@@ -53,7 +54,6 @@ MIME::Base64~3.15
 Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
-Net::HTTP~6.12
 Net::HTTPS~6.12
 Net::SSLeay~1.80
 POSIX::strftime::Compiler~0.42
@@ -82,6 +82,7 @@ Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
 URI~1.71
+URI::Escape~3.31
 WWW::Form::UrlEncoded~0.23
 WWW::RobotRules~6.02
 XSLoader~0.24
