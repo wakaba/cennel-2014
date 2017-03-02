@@ -34,9 +34,9 @@ HTTP::Daemon~6.01
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
-HTTP::Headers::Util~6.11
 HTTP::MultiPartParser~0.01
 HTTP::Negotiate~6.01
+HTTP::Request::Common~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
@@ -55,6 +55,7 @@ Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
 Net::HTTP~6.13
+Net::HTTPS~6.13
 Net::SSLeay~1.80
 POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
@@ -70,7 +71,7 @@ Stream::Buffered~0.03
 Term::ANSIColor~4.06
 Test::Deep~1.126
 Test::Differences~0.64
-Test::More~1.302075
+Test::More~1.302078
 Test::Requires~0.10
 Test::SharedFork~0.35
 Test::TCP~2.17
