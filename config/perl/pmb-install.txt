@@ -3,7 +3,6 @@ AnyEvent~7.13
 AnyEvent::FileLock~0.03
 AnyEvent::HTTP~2.23
 AnyEvent::HTTP::Socks~0.05
-AnyEvent::Util
 Apache::LogFormat::Compiler~0.35
 Canary::Stability~2012
 Capture::Tiny~0.46
@@ -33,11 +32,10 @@ HTTP::Cookies~6.03
 HTTP::Daemon~6.01
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
-HTTP::Headers~6.11
 HTTP::Headers::Fast~0.21
-HTTP::Message~6.11
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
+HTTP::Status~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
 IO::Handle~1.28
@@ -54,7 +52,6 @@ MIME::Base64~3.15
 Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
-Net::HTTP~6.13
 Net::HTTPS~6.13
 Net::SSLeay~1.81
 POSIX::strftime::Compiler~0.42
