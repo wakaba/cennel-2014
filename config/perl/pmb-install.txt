@@ -36,6 +36,7 @@ HTTP::Headers~6.11
 HTTP::Headers::Fast~0.21
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
+HTTP::Request~6.11
 HTTP::Status~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
@@ -53,7 +54,6 @@ MIME::Base64~3.15
 Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
-Net::HTTP~6.14
 Net::HTTPS~6.14
 Net::SSLeay~1.81
 POSIX::strftime::Compiler~0.42
@@ -68,9 +68,9 @@ Server::Starter~0.33
 Signal::Mask~0.008
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302083
 Test::Deep~1.126
 Test::Differences~0.64
+Test::More~1.302083
 Test::Requires~0.10
 Test::SharedFork~0.35
 Test::TCP~2.18
