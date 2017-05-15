@@ -33,11 +33,11 @@ HTTP::Daemon~6.01
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.19
 HTTP::Headers::Fast~0.21
+HTTP::Headers::Util~6.11
 HTTP::Message~6.11
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
 HTTP::Request~6.11
-HTTP::Response~6.11
 Hash::MultiValue~0.16
 IO::HTML~1.001
 IO::Handle~1.28
