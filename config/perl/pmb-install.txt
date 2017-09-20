@@ -33,10 +33,9 @@ HTTP::Daemon~6.01
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.20
 HTTP::Headers::Fast~0.21
-HTTP::Message~6.13
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
-HTTP::Response~6.13
+HTTP::Request~6.13
 HTTP::Status~6.13
 Hash::MultiValue~0.16
 IO::HTML~1.001
@@ -83,7 +82,6 @@ Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
 URI~1.72
-URI::Escape~3.31
 WWW::Form::UrlEncoded~0.24
 WWW::RobotRules~6.02
 common::sense~3.74
