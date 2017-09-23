@@ -26,7 +26,7 @@ File::ShareDir~1.104
 File::ShareDir::Install~0.11
 File::Temp~0.2304
 Filesys::Notify::Simple~0.12
-HTML::Entities~3.69
+HTML::HeadParser~3.71
 HTML::Tagset~3.20
 HTTP::Cookies~6.04
 HTTP::Daemon~6.01
@@ -36,7 +36,6 @@ HTTP::Headers::Fast~0.21
 HTTP::Headers::Util~6.13
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
-HTTP::Request~6.13
 HTTP::Status~6.13
 Hash::MultiValue~0.16
 IO::HTML~1.001
@@ -55,7 +54,7 @@ MIME::Base64~3.15
 Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20160104
-Net::HTTP~6.17
+Net::HTTPS~6.17
 Net::SSLeay~1.81
 POSIX::strftime::Compiler~0.42
 Parallel::Prefork~0.18
@@ -69,9 +68,9 @@ Server::Starter~0.33
 Signal::Mask~0.008
 Stream::Buffered~0.03
 Term::ANSIColor~4.06
-Test::Builder~1.302096
 Test::Deep~1.127
 Test::Differences~0.64
+Test::More~1.302096
 Test::Requires~0.10
 Test::SharedFork~0.35
 Test::TCP~2.19
