@@ -3,6 +3,7 @@ AnyEvent~7.15
 AnyEvent::FileLock~0.06
 AnyEvent::HTTP~2.24
 AnyEvent::HTTP::Socks~0.05
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.35
 Canary::Stability~2012
 Capture::Tiny~0.48
@@ -27,18 +28,16 @@ File::ShareDir::Install~0.13
 File::Temp~0.2309
 Filesys::Notify::Simple~0.13
 HTML::Entities~3.69
-HTML::HeadParser~3.71
 HTML::Tagset~3.20
 HTTP::Cookies~6.04
 HTTP::Daemon~6.04
 HTTP::Date~6.02
 HTTP::Entity::Parser~0.21
 HTTP::Headers::Fast~0.21
+HTTP::Message~6.18
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
-HTTP::Request~6.18
-HTTP::Response~6.18
-HTTP::Status~6.18
+HTTP::Request::Common~6.18
 Hash::MultiValue~0.16
 IO::HTML~1.001
 IO::Handle~1.39
@@ -84,6 +83,7 @@ Twiggy~0.1025
 Twiggy::Prefork~0.08
 Types::Serialiser~1.0
 URI~1.76
+URI::Escape~3.31
 WWW::Form::UrlEncoded~0.25
 WWW::RobotRules~6.02
 common::sense~3.74
