@@ -3,6 +3,7 @@ AnyEvent~7.15
 AnyEvent::FileLock~0.06
 AnyEvent::HTTP~2.24
 AnyEvent::HTTP::Socks~0.05
+AnyEvent::Util
 Apache::LogFormat::Compiler~0.35
 Canary::Stability~2012
 Capture::Tiny~0.48
@@ -26,7 +27,6 @@ File::ShareDir~1.116
 File::ShareDir::Install~0.13
 File::Temp~0.2309
 Filesys::Notify::Simple~0.13
-HTML::Entities~3.69
 HTML::HeadParser~3.71
 HTML::Tagset~3.20
 HTTP::Cookies~6.04
@@ -36,7 +36,7 @@ HTTP::Entity::Parser~0.21
 HTTP::Headers::Fast~0.22
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
-HTTP::Response~6.18
+HTTP::Request~6.18
 HTTP::Status~6.18
 Hash::MultiValue~0.16
 IO::HTML~1.001
@@ -55,7 +55,6 @@ MIME::Base64~3.15
 Method::WeakCallback~0.04
 Module::Build::Tiny~0.039
 Mozilla::CA~20180117
-Net::HTTP~6.18
 Net::HTTPS~6.18
 Net::SSLeay~1.85
 POSIX::strftime::Compiler~0.42
