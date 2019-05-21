@@ -26,7 +26,7 @@ File::ShareDir~1.116
 File::ShareDir::Install~0.13
 File::Temp~0.2309
 Filesys::Notify::Simple~0.13
-HTML::Entities~3.69
+HTML::HeadParser~3.71
 HTML::Tagset~3.20
 HTTP::Cookies~6.04
 HTTP::Daemon~6.04
@@ -36,6 +36,7 @@ HTTP::Headers::Fast~0.22
 HTTP::MultiPartParser~0.02
 HTTP::Negotiate~6.01
 HTTP::Request~6.18
+HTTP::Response~6.18
 HTTP::Status~6.18
 Hash::MultiValue~0.16
 IO::HTML~1.001
